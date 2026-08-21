@@ -1,7 +1,10 @@
 { ... }:
 
 {
-  imports = [ ./packages.nix ];
+  imports = [
+    ./packages.nix
+    ./shell.nix
+  ];
 
   home.username = "yumx";
   home.homeDirectory = /Users/yumx;
