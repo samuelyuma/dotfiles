@@ -24,9 +24,23 @@
     }:
     let
       pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+      activate = pkgs.writeShellScriptBin "activate" ''
+        exec /usr/bin/sudo /usr/bin/env \
+          HOME=/var/root \
+          PATH=/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin:$PATH \
+          ${nix-darwin.packages.aarch64-darwin.darwin-rebuild}/bin/darwin-rebuild \
+          switch --flake "$PWD#darwin"
+      '';
     in
     {
       formatter.aarch64-darwin = pkgs.nixfmt;
+
+      packages.aarch64-darwin.activate = activate;
+
+      apps.aarch64-darwin.activate = {
+        type = "app";
+        program = "${activate}/bin/activate";
+      };
 
       devShells.aarch64-darwin.default = pkgs.mkShellNoCC {
         packages = [ pkgs.nixfmt ];

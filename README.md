@@ -2,16 +2,86 @@
 
 Declarative configuration for my system settings.
 
-## Requirements
+## Folder structure
+
+```text
+.
+├── .envrc
+├── .gitignore
+├── README.md
+├── configurations
+│   └── darwin
+│       └── default.nix
+├── flake.lock
+├── flake.nix
+└── modules
+    ├── darwin
+    │   └── default.nix
+    └── home
+        ├── default.nix
+        ├── packages
+        │   └── default.nix
+        ├── shell
+        │   ├── default.nix
+        │   └── starship.toml
+        ├── terminal
+        │   ├── default.nix
+        │   └── ghostty.conf
+        └── vcs
+            └── git.nix
+```
+
+## Usage
+
+### Prerequisite
 
 - Nix with the `nix-command` and `flakes` features enabled
-- direnv, if the development shell should load automatically through `.envrc`
+- `sudo` access for applying the system configuration
+- `direnv` is optional
 
-## Commands
+This flake uses the existing Nix installation. nix-darwin does not configure Nix itself because `nix.enable = false` is set for the Determinate Nix setup.
 
-```bash
-nix develop              # enter the development shell
-nix fmt                  # format Nix files
-nix flake check          # check the flake
-nix flake update         # update flake inputs
+### Setup
+
+Run these commands from the repository root.
+
+#### Enter the development shell
+
+```console
+nix develop
+```
+
+To load the shell automatically through direnv:
+
+```console
+direnv allow
+```
+
+#### Format and check the flake
+
+```console
+nix fmt
+nix flake check
+```
+
+#### Build the Darwin configuration
+
+Build the configuration without activating it:
+
+```console
+nix build .#darwinConfigurations.darwin.system
+```
+
+#### Apply the configuration
+
+The flake provides an activation command that handles the required elevation internally:
+
+```console
+nix run .#activate
+```
+
+Reload the shell after activation:
+
+```console
+exec zsh -l
 ```
