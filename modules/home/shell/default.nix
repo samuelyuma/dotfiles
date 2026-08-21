@@ -1,6 +1,8 @@
 { ... }:
 
 {
+  programs.starship.settings = builtins.fromTOML (builtins.readFile ./starship.toml);
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;

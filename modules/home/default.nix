@@ -2,10 +2,9 @@
 
 {
   imports = [
-    ./packages.nix
-    ./prompt.nix
-    ./shell.nix
-    ./terminal.nix
+    ./packages
+    ./shell
+    ./terminal
   ];
 
   home.username = "yumx";
