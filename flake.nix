@@ -33,7 +33,7 @@
       '';
     in
     {
-      formatter.aarch64-darwin = pkgs.nixfmt;
+      formatter.aarch64-darwin = pkgs.nixfmt-tree;
 
       packages.aarch64-darwin.activate = activate;
 
@@ -43,7 +43,7 @@
       };
 
       devShells.aarch64-darwin.default = pkgs.mkShellNoCC {
-        packages = [ pkgs.nixfmt ];
+        packages = [ pkgs.nixfmt-tree ];
       };
 
       darwinConfigurations.darwin = nix-darwin.lib.darwinSystem {
