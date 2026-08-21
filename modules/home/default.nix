@@ -1,5 +1,7 @@
 { ... }:
 
 {
-  # Home Manager settings will be added here.
+  home.username = "yumx";
+  home.homeDirectory = /Users/yumx;
+  home.stateVersion = "26.05";
 }
