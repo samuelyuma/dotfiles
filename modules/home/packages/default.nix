@@ -11,6 +11,7 @@
     # Shell tools
     atuin
     gum
+    zinit
     zoxide
 
     # Files and text

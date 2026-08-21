@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   programs.starship.settings = builtins.fromTOML (builtins.readFile ./starship.toml);
@@ -6,9 +6,6 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    autosuggestion.enable = true;
-    syntaxHighlighting.enable = true;
-    historySubstringSearch.enable = true;
 
     shellAliases = {
       v = "nvim";
@@ -38,6 +35,22 @@
     };
 
     initContent = ''
+      ZINIT_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}/zinit"
+      zstyle ':zinit:config' home-dir "$ZINIT_HOME"
+      source "${pkgs.zinit}/share/zinit/zinit.zsh"
+
+      zinit snippet OMZL::git.zsh
+      zinit snippet OMZP::git
+      zinit snippet OMZ::plugins/uv/uv.plugin.zsh
+      zinit snippet OMZ::plugins/bun/bun.plugin.zsh
+      zinit snippet OMZ::plugins/docker/docker.plugin.zsh
+
+      zinit light Aloxaf/fzf-tab
+      zinit light zsh-users/zsh-syntax-highlighting
+      zinit light zsh-users/zsh-completions
+      zinit light zsh-users/zsh-autosuggestions
+      zinit light zsh-users/zsh-history-substring-search
+
       export BAT_THEME="base16"
 
       export PATH="/Library/TeX/texbin:$PATH"
