@@ -5,6 +5,7 @@
     ./packages
     ./shell
     ./terminal
+    ./vcs/git.nix
   ];
 
   home.username = "yumx";
