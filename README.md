@@ -2,7 +2,7 @@
 
 Declarative configuration for my system settings.
 
-## Folder structure
+## Folder Structure
 
 ```text
 .
@@ -78,6 +78,14 @@ The flake provides an activation command that handles the required elevation int
 
 ```console
 nix run .#activate
+```
+
+#### Rollback to the previous generation
+
+Use nix-darwin's native rollback command if the latest activation causes a problem:
+
+```console
+sudo darwin-rebuild --rollback
 ```
 
 Reload the shell after activation:
