@@ -1,0 +1,44 @@
+add_newline = true
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$python\
+$bun\
+$golang\
+$fill\
+$time\
+$line_break\
+$character\
+"""
+
+[fill]
+symbol = ' '
+
+[character]
+success_symbol = "[>](bold green)"
+error_symbol = "[>](bold red)"
+
+[nodejs]
+symbol = " "
+style = "green"
+
+[python]
+symbol = " "
+style = "blue"
+
+[bun]
+symbol = " "
+style = "yellow"
+
+[golang]
+symbol = " "
+style = "cyan"
+
+[time]
+disabled = false
+format = "[$time]($style)"
+time_format = "%H:%M:%S"
+style = "cyan"
