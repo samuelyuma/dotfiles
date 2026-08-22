@@ -1,6 +1,8 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
+  fonts.packages = [ pkgs.nerd-fonts.geist-mono ];
+
   homebrew = {
     enable = true;
     onActivation.cleanup = "check";
