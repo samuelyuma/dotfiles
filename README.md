@@ -57,10 +57,16 @@ To load the shell automatically through direnv:
 direnv allow
 ```
 
+Entering the development shell installs the repository's Git hooks. Formatting
+and lint checks run before each commit, while the full flake check runs before
+each push.
+
 #### Format and check the flake
 
 ```console
-nix fmt
+nix fmt -- --ci
+statix check .
+deadnix .
 nix flake check
 ```
 

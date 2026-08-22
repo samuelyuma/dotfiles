@@ -14,97 +14,96 @@
     "${config.home.homeDirectory}/.opencode/bin"
   ];
 
-  programs.starship.settings = builtins.fromTOML (builtins.readFile ./starship.toml);
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-
-    shellAliases = {
-      v = "nvim";
-      vi = "nvim";
-      cls = "clear";
-      ls = "eza --color=always --icons";
-      l = "eza -l --icons";
-      la = "eza -la --icons";
-      lla = "eza -la --icons";
-      lt = "eza --tree --icons";
-      cat = "bat -p";
-      rcat = "/bin/cat";
-      grep = "grep --color=auto";
-      df = "df -h";
-      du = "du -h";
-      cp = "cp -iv";
-      mv = "mv -iv";
-      mkdir = "mkdir -pv";
-      cd = "z";
-      cdi = "zi";
-      path = "print -l $path";
-
-      zshconf = "nano ${config.home.homeDirectory}/Code/config/dotfiles/modules/home/shell/default.nix";
-      ghosttyconf = "nano ${config.home.homeDirectory}/Code/config/dotfiles/modules/home/terminal/ghostty.conf";
-
+  programs = {
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+      settings = builtins.fromTOML (builtins.readFile ./starship.toml);
     };
 
-    initContent = ''
-      reload() {
-        unset __HM_SESS_VARS_SOURCED __HM_ZSH_SESS_VARS_SOURCED
-        export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
-        exec /bin/zsh -l
-      }
+    zsh = {
+      enable = true;
+      enableCompletion = true;
 
-      ZINIT_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}/zinit"
-      zstyle ':zinit:config' home-dir "$ZINIT_HOME"
-      source "${pkgs.zinit}/share/zinit/zinit.zsh"
+      shellAliases = {
+        v = "nvim";
+        vi = "nvim";
+        cls = "clear";
+        ls = "eza --color=always --icons";
+        l = "eza -l --icons";
+        la = "eza -la --icons";
+        lla = "eza -la --icons";
+        lt = "eza --tree --icons";
+        cat = "bat -p";
+        rcat = "/bin/cat";
+        grep = "grep --color=auto";
+        df = "df -h";
+        du = "du -h";
+        cp = "cp -iv";
+        mv = "mv -iv";
+        mkdir = "mkdir -pv";
+        cd = "z";
+        cdi = "zi";
+        path = "print -l $path";
 
-      zinit snippet OMZL::git.zsh
-      zinit snippet OMZP::git
-      zinit snippet OMZ::plugins/uv/uv.plugin.zsh
-      zinit snippet OMZ::plugins/bun/bun.plugin.zsh
-      zinit snippet OMZ::plugins/docker/docker.plugin.zsh
+        zshconf = "nano ${config.home.homeDirectory}/Code/config/dotfiles/modules/home/shell/default.nix";
+        ghosttyconf = "nano ${config.home.homeDirectory}/Code/config/dotfiles/modules/home/terminal/ghostty.conf";
+      };
 
-      zinit ice blockf atload"zicompinit; zicdreplay"
-      zinit light zsh-users/zsh-completions
-      zinit light Aloxaf/fzf-tab
-      zinit light zsh-users/zsh-autosuggestions
-      zinit light zsh-users/zsh-history-substring-search
-      zinit light zsh-users/zsh-syntax-highlighting
+      initContent = ''
+        reload() {
+          unset __HM_SESS_VARS_SOURCED __HM_ZSH_SESS_VARS_SOURCED
+          export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+          exec /bin/zsh -l
+        }
 
-      unalias zi 2>/dev/null || true
-      eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
+        ZINIT_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}/zinit"
+        zstyle ':zinit:config' home-dir "$ZINIT_HOME"
+        source "${pkgs.zinit}/share/zinit/zinit.zsh"
 
-      export BAT_THEME="base16"
+        zinit snippet OMZL::git.zsh
+        zinit snippet OMZP::git
+        zinit snippet OMZ::plugins/uv/uv.plugin.zsh
+        zinit snippet OMZ::plugins/bun/bun.plugin.zsh
+        zinit snippet OMZ::plugins/docker/docker.plugin.zsh
 
-    '';
-  };
+        zinit ice blockf atload"zicompinit; zicdreplay"
+        zinit light zsh-users/zsh-completions
+        zinit light Aloxaf/fzf-tab
+        zinit light zsh-users/zsh-autosuggestions
+        zinit light zsh-users/zsh-history-substring-search
+        zinit light zsh-users/zsh-syntax-highlighting
 
-  programs.atuin = {
-    enable = true;
-    enableZshIntegration = true;
-    settings.enter_accept = true;
-  };
+        unalias zi 2>/dev/null || true
+        eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
 
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
+        export BAT_THEME="base16"
+      '';
+    };
 
-  programs.fzf = {
-    enable = true;
-    enableZshIntegration = true;
-    defaultCommand = "fd --type f --hidden --follow --exclude .git";
-    fileWidget.command = "fd --type f --hidden --follow --exclude .git";
-    changeDirWidget.command = "fd --type d --hidden --follow --exclude .git";
-    historyWidget.command = "";
-  };
+    atuin = {
+      enable = true;
+      enableZshIntegration = true;
+      settings.enter_accept = true;
+    };
 
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
-  };
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
 
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = false;
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+      defaultCommand = "fd --type f --hidden --follow --exclude .git";
+      fileWidget.command = "fd --type f --hidden --follow --exclude .git";
+      changeDirWidget.command = "fd --type d --hidden --follow --exclude .git";
+      historyWidget.command = "";
+    };
+
+    zoxide = {
+      enable = true;
+      enableZshIntegration = false;
+    };
   };
 }

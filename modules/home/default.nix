@@ -1,4 +1,4 @@
-{ ... }:
+_:
 
 {
   imports = [
@@ -8,7 +8,9 @@
     ./vcs/git.nix
   ];
 
-  home.username = "yumx";
-  home.homeDirectory = /Users/yumx;
-  home.stateVersion = "26.05";
+  home = {
+    username = "yumx";
+    homeDirectory = /Users/yumx;
+    stateVersion = "26.05";
+  };
 }
