@@ -18,6 +18,8 @@
 
     colorscheme = "default";
 
+    filetype.extension.gotmpl = "gotmpl";
+
     highlightOverride = {
       Comment = {
         fg = "#9b9ea4";
@@ -461,6 +463,7 @@
           formatters_by_ft = {
             lua = [ "stylua" ];
             nix = [ "nixfmt" ];
+            python = [ "ruff_format" ];
           };
         };
       };
@@ -525,9 +528,19 @@
 
     lsp = {
       servers = {
-        "*".config.capabilities.__raw = "require('blink.cmp').get_lsp_capabilities()";
+        "*".config.capabilities.__raw = ''
+          (function()
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
+            capabilities.general = capabilities.general or {}
+            capabilities.general.positionEncodings = { "utf-16" }
+            return capabilities
+          end)()
+        '';
 
-        basedpyright.enable = true;
+        basedpyright = {
+          enable = true;
+          config.settings.basedpyright.disableOrganizeImports = true;
+        };
         gopls.enable = true;
 
         lua_ls = {
@@ -549,6 +562,7 @@
         };
 
         nixd.enable = true;
+        ruff.enable = true;
         ts_ls.enable = true;
       };
 
@@ -572,6 +586,10 @@
 
         if client.name == "lua_ls" then
           client.server_capabilities.documentFormattingProvider = false
+        end
+
+        if client.name == "ruff" then
+          client.server_capabilities.hoverProvider = false
         end
 
         if client:supports_method("textDocument/documentHighlight", bufnr) then
