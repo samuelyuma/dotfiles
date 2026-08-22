@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   home.sessionPath = [
@@ -10,6 +10,10 @@
     "/bin"
     "/usr/sbin"
     "/sbin"
+    "/Library/TeX/texbin"
+    "${config.home.homeDirectory}/.local/bin"
+    "${config.home.homeDirectory}/.opencode/bin"
+    "${config.home.homeDirectory}/go/bin"
   ];
 
   programs.starship.settings = builtins.fromTOML (builtins.readFile ./starship.toml);
@@ -40,8 +44,8 @@
       path = "print -l $path";
 
       reload = "exec zsh";
-      zshconf = "nvim ~/.zshrc";
-      ghosttyconf = "nvim ~/Library/Application Support/com.mitchellh.ghostty/config";
+      zshconf = "nano ~/.zshrc";
+      ghosttyconf = "nano ${config.home.homeDirectory}/Code/config/dotfiles/modules/home/terminal/ghostty.conf";
 
     };
 
@@ -64,11 +68,6 @@
 
       export BAT_THEME="base16"
 
-      export PATH="/Library/TeX/texbin:$PATH"
-      export PATH="$HOME/.local/bin:$PATH"
-      export PATH="$HOME/.opencode/bin:$PATH"
-      export PATH="$HOME/go/bin:$PATH"
-
       if command -v pyenv >/dev/null 2>&1; then
         eval "$(pyenv init -)"
       fi
@@ -77,9 +76,6 @@
         eval "$(fnm env --use-on-cd --shell zsh)"
       fi
 
-      export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-      export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-      export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
     '';
   };
 
