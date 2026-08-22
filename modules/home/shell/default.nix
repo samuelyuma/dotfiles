@@ -10,10 +10,8 @@
     "/bin"
     "/usr/sbin"
     "/sbin"
-    "/Library/TeX/texbin"
     "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/.opencode/bin"
-    "${config.home.homeDirectory}/go/bin"
   ];
 
   programs.starship.settings = builtins.fromTOML (builtins.readFile ./starship.toml);
@@ -43,13 +41,18 @@
       cdi = "zi";
       path = "print -l $path";
 
-      reload = "exec zsh";
-      zshconf = "nano ~/.zshrc";
+      zshconf = "nano ${config.home.homeDirectory}/Code/config/dotfiles/modules/home/shell/default.nix";
       ghosttyconf = "nano ${config.home.homeDirectory}/Code/config/dotfiles/modules/home/terminal/ghostty.conf";
 
     };
 
     initContent = ''
+      reload() {
+        unset __HM_SESS_VARS_SOURCED __HM_ZSH_SESS_VARS_SOURCED
+        export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
+        exec /bin/zsh -l
+      }
+
       ZINIT_HOME="''${XDG_DATA_HOME:-$HOME/.local/share}/zinit"
       zstyle ':zinit:config' home-dir "$ZINIT_HOME"
       source "${pkgs.zinit}/share/zinit/zinit.zsh"
@@ -60,11 +63,15 @@
       zinit snippet OMZ::plugins/bun/bun.plugin.zsh
       zinit snippet OMZ::plugins/docker/docker.plugin.zsh
 
-      zinit light Aloxaf/fzf-tab
-      zinit light zsh-users/zsh-syntax-highlighting
+      zinit ice blockf atload"zicompinit; zicdreplay"
       zinit light zsh-users/zsh-completions
+      zinit light Aloxaf/fzf-tab
       zinit light zsh-users/zsh-autosuggestions
       zinit light zsh-users/zsh-history-substring-search
+      zinit light zsh-users/zsh-syntax-highlighting
+
+      unalias zi 2>/dev/null || true
+      eval "$(${pkgs.zoxide}/bin/zoxide init zsh)"
 
       export BAT_THEME="base16"
 
@@ -105,6 +112,6 @@
 
   programs.zoxide = {
     enable = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
   };
 }
