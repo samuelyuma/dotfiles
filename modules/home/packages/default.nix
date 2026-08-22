@@ -23,9 +23,6 @@
     lazydocker
     serpl
 
-    # Editor
-    neovim
-
     # Development utilities
     dotenv-cli
     pipreqs

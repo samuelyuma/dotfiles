@@ -2,6 +2,7 @@ _:
 
 {
   imports = [
+    ./editor
     ./packages
     ./shell
     ./terminal

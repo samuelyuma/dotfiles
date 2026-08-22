@@ -19,6 +19,8 @@ Declarative configuration for my system settings.
     │   └── default.nix
     └── home
         ├── default.nix
+        ├── editor
+        │   └── default.nix
         ├── packages
         │   └── default.nix
         ├── shell

@@ -4,6 +4,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    nixvim.url = "github:nix-community/nixvim";
+
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,6 +28,7 @@
       git-hooks,
       nix-darwin,
       home-manager,
+      nixvim,
       nixpkgs,
       ...
     }:
@@ -108,6 +111,7 @@
           {
             home-manager = {
               backupFileExtension = "hm-backup";
+              sharedModules = [ nixvim.homeModules.nixvim ];
               useGlobalPkgs = true;
               useUserPackages = true;
               users.yumx = import ./modules/home;
