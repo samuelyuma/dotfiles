@@ -18,6 +18,70 @@
 
     colorscheme = "default";
 
+    highlightOverride = {
+      Comment = {
+        fg = "#9b9ea4";
+        italic = true;
+      };
+      Constant.fg = "#fce094";
+      String.fg = "#b3f6c0";
+      Character.fg = "#b3f6c0";
+      Number.fg = "#a6dbff";
+      Boolean.fg = "#fce094";
+      Float.fg = "#a6dbff";
+      Identifier.fg = "#e0e2ea";
+      Function.fg = "#a6dbff";
+      Statement.fg = "#ffcaff";
+      Operator.fg = "#ffcaff";
+      Type.fg = "#8cf8f7";
+      Special.fg = "#8cf8f7";
+      Underlined = {
+        fg = "#8cf8f7";
+        underline = true;
+      };
+      Error = {
+        fg = "#ffc0b9";
+        bold = true;
+      };
+      Todo = {
+        fg = "#14161b";
+        bg = "#fce094";
+        bold = true;
+      };
+
+      "@variable".fg = "#e0e2ea";
+      "@variable.nix".fg = "#a6dbff";
+      "@variable.builtin".fg = "#ffc0b9";
+      "@variable.parameter".fg = "#e0e2ea";
+      "@variable.member".fg = "#8cf8f7";
+      "@constant".fg = "#fce094";
+      "@constant.builtin".fg = "#fce094";
+      "@module".fg = "#8cf8f7";
+      "@string".fg = "#b3f6c0";
+      "@string.escape".fg = "#fce094";
+      "@boolean".fg = "#fce094";
+      "@number".fg = "#a6dbff";
+      "@number.float".fg = "#a6dbff";
+      "@function".fg = "#a6dbff";
+      "@function.builtin".fg = "#8cf8f7";
+      "@function.call".fg = "#a6dbff";
+      "@constructor".fg = "#8cf8f7";
+      "@keyword".fg = "#ffcaff";
+      "@keyword.function".fg = "#ffcaff";
+      "@keyword.operator".fg = "#ffcaff";
+      "@operator".fg = "#ffcaff";
+      "@type".fg = "#8cf8f7";
+      "@type.builtin".fg = "#8cf8f7";
+      "@property".fg = "#8cf8f7";
+      "@attribute".fg = "#fce094";
+      "@tag".fg = "#a6dbff";
+      "@tag.attribute".fg = "#fce094";
+      "@markup.link" = {
+        fg = "#8cf8f7";
+        underline = true;
+      };
+    };
+
     opts = {
       background = "dark";
       number = true;
