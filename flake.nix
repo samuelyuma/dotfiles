@@ -17,6 +17,7 @@
 
   outputs =
     {
+      self,
       nix-darwin,
       home-manager,
       nixpkgs,
@@ -29,7 +30,7 @@
           HOME=/var/root \
           PATH=/nix/var/nix/profiles/default/bin:/run/current-system/sw/bin:$PATH \
           ${nix-darwin.packages.aarch64-darwin.darwin-rebuild}/bin/darwin-rebuild \
-          switch --flake "$PWD#darwin"
+          switch --flake "${self.outPath}#darwin"
       '';
     in
     {

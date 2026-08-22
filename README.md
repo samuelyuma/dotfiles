@@ -80,6 +80,12 @@ The flake provides an activation command that handles the required elevation int
 nix run .#activate
 ```
 
+From another directory, reference the repository directly:
+
+```console
+nix run /path/to/dotfiles#activate
+```
+
 #### Rollback to the previous generation
 
 Use nix-darwin's native rollback command if the latest activation causes a problem:
