@@ -1,6 +1,17 @@
 { pkgs, ... }:
 
 {
+  home.sessionPath = [
+    "/etc/profiles/per-user/yumx/bin"
+    "/run/current-system/sw/bin"
+    "/nix/var/nix/profiles/default/bin"
+    "/usr/local/bin"
+    "/usr/bin"
+    "/bin"
+    "/usr/sbin"
+    "/sbin"
+  ];
+
   programs.starship.settings = builtins.fromTOML (builtins.readFile ./starship.toml);
 
   programs.zsh = {
