@@ -4,21 +4,17 @@
   home.packages = with pkgs; [
     # Version control
     gh
-    git
     git-filter-repo
     git-lfs
 
     # Shell tools
-    atuin
     gum
     zinit
-    zoxide
 
     # Files and text
     bat
     eza
     fd
-    fzf
     ripgrep
     tree
 
@@ -39,13 +35,11 @@
     air
     bun
     cargo
-    fnm
     go
     golangci-lint
     gopls
     nodejs
     pnpm
-    rustc
     typst
     uv
     yarn
@@ -63,7 +57,6 @@
     mole-cleaner
 
     # Python tooling
-    pyenv
     ruff
   ];
 }

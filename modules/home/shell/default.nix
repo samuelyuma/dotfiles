@@ -75,20 +75,13 @@
 
       export BAT_THEME="base16"
 
-      if command -v pyenv >/dev/null 2>&1; then
-        eval "$(pyenv init -)"
-      fi
-
-      if command -v fnm >/dev/null 2>&1; then
-        eval "$(fnm env --use-on-cd --shell zsh)"
-      fi
-
     '';
   };
 
   programs.atuin = {
     enable = true;
     enableZshIntegration = true;
+    settings.enter_accept = true;
   };
 
   programs.direnv = {
