@@ -3,6 +3,7 @@ _:
 {
   imports = [
     ./editor
+    ./opencode
     ./packages
     ./shell
     ./terminal

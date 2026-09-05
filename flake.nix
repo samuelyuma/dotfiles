@@ -16,6 +16,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -28,6 +33,7 @@
       git-hooks,
       nix-darwin,
       home-manager,
+      sops-nix,
       nixvim,
       nixpkgs,
       ...
@@ -108,10 +114,14 @@
         modules = [
           ./configurations/darwin
           home-manager.darwinModules.home-manager
+          sops-nix.darwinModules.sops
           {
             home-manager = {
               backupFileExtension = "hm-backup";
-              sharedModules = [ nixvim.homeModules.nixvim ];
+              sharedModules = [
+                nixvim.homeModules.nixvim
+                sops-nix.homeManagerModules.sops
+              ];
               useGlobalPkgs = true;
               useUserPackages = true;
               users.yumx = import ./modules/home;

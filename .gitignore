@@ -1,4 +1,5 @@
 /result
 /result-*
 .direnv/
+.omo/
 .pre-commit-config.yaml
