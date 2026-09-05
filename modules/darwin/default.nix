@@ -29,7 +29,6 @@
       "telegram"
       "the-unarchiver"
       "whatsapp"
-      "zcode"
       "zed"
       "zoom"
     ];
