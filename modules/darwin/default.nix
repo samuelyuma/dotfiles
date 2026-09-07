@@ -5,18 +5,15 @@
 
   homebrew = {
     enable = true;
-    onActivation.cleanup = "check";
+    onActivation.cleanup = "uninstall";
 
     casks = [
       "arc"
-      "cc-switch"
       "chatgpt"
-      "cloudflare-warp"
       "codex"
       "discord"
       "ghostty"
       "google-chrome"
-      "handbrake-app"
       "helium-browser"
       "macs-fan-control"
       "markdown-preview"
