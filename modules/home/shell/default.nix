@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  home.sessionVariables = {
+    SOPS_AGE_KEY_FILE = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+  };
+
   home.sessionPath = [
     "/etc/profiles/per-user/yumx/bin"
     "/run/current-system/sw/bin"

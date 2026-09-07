@@ -8,7 +8,8 @@
 let
   secretsYaml = ../../../secrets/secrets.yaml;
   hasGitPat =
-    builtins.pathExists secretsYaml && lib.hasInfix "git_pat" (builtins.readFile secretsYaml);
+    builtins.pathExists secretsYaml
+    && lib.hasInfix "personal_access_token" (builtins.readFile secretsYaml);
 in
 {
   programs.git = {
@@ -45,11 +46,11 @@ in
   sops = lib.mkIf hasGitPat {
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     defaultSopsFile = secretsYaml;
-    secrets."github/git_pat" = { };
+    secrets."github/personal_access_token" = { };
     templates."git-credentials" = {
       path = "${config.home.homeDirectory}/.git-credentials";
       mode = "0400";
-      content = "https://samuelyuma:${config.sops.placeholder."github/git_pat"}@github.com";
+      content = "https://samuelyuma:${config.sops.placeholder."github/personal_access_token"}@github.com";
     };
   };
 }

@@ -165,7 +165,7 @@ scopes and travel to different endpoints:
 - `mcp_token` (read-only API use), repository access limited to the repos
   you work in, permissions **Contents: Read**, **Issues: Read**,
   **Metadata: Read**
-- `git_pat` (push/pull), same repository selection, permissions
+- `personal_access_token` (push/pull), same repository selection, permissions
   **Contents: Read and write**, **Metadata: Read**
 
 Both expire (90 days recommended). When pushes or MCP calls start failing
@@ -178,16 +178,17 @@ Replace the placeholders, save, and apply:
 ```yaml
 github:
   mcp_token: github_pat_11...
-  git_pat: github_pat_11...
+  personal_access_token: github_pat_11...
 ```
 
 ```console
 nix run .#activate
 ```
 
-Until `github/git_pat` exists in `secrets.yaml`, git keeps using
-`osxkeychain`; the sops-rendered `~/.git-credentials` takes over
-automatically on the first activation after you add it.
+Until `github/personal_access_token` exists in `secrets.yaml`, git keeps
+using an in-memory cache (this git is built without osxkeychain support);
+the sops-rendered `~/.git-credentials` takes over automatically on the
+first activation after you add it.
 
 To add another secret later, add it under a new key in
 `secrets/secrets.yaml` via `sops secrets/secrets.yaml`, reference it in
