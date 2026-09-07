@@ -32,6 +32,7 @@
     air
     bun
     cargo
+    dotnet-sdk_10
     go
     golangci-lint
     gopls
