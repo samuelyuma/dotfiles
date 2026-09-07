@@ -115,52 +115,81 @@ exec zsh -l
 
 #### Updating packages
 
-Nix-managed tools (e.g. `bun` in `modules/home/packages`) update by bumping
-the `nixpkgs` lock entry, never via the tool's own updater (`bun upgrade`
-cannot work — the Nix store is read-only):
+Nix-managed tools (declared in `modules/home/packages`) update by bumping
+the `nixpkgs` lock entry, never via the tool's own updater (e.g. `bun
+upgrade` cannot work — the Nix store is read-only). Replace `<package>`
+with any tool name to verify it:
 
 ```console
 nix flake update nixpkgs
 nix run .#activate
 exec zsh -l
-bun --version
+<package> --version
 ```
 
 #### Removing a Homebrew cask
 
-Delete the entry from the `casks` list in `modules/darwin/default.nix`.
-nix-darwin will not reinstall it, but apps brew does not track must be
-deleted once by hand:
+Delete the entry from the `casks` list in `modules/darwin/default.nix`,
+then activate — with `onActivation.cleanup = "uninstall"`, brew removes
+any tracked cask missing from the list. Apps brew does not track (e.g. a
+leftover `<AppName>.app` installed by hand) must be deleted once manually:
 
 ```console
-sudo rm -rf /Applications/ZCode.app
+sudo rm -rf "/Applications/<AppName>.app"
 nix run .#activate
 ```
 
 ### Secrets (sops-nix)
 
-The GitHub MCP token in `modules/home/opencode` is injected from
-`secrets/secrets.yaml`, which stays encrypted in git. First-time setup:
+GitHub tokens in `modules/home/opencode` (MCP) and `modules/home/vcs`
+(git push/pull) are injected from `secrets/secrets.yaml`, which stays
+encrypted in git. First-time setup:
 
 ```console
 age-keygen -o ~/.config/sops/age/keys.txt
 ```
 
-Put the printed `age1...` public key into `.sops.yaml`, then store the secret:
+Put the printed `age1...` public key into `.sops.yaml`, then store the secrets:
 
 ```console
 sops secrets/secrets.yaml
 ```
 
-Replace `REPLACE_WITH_REAL_TOKEN` with a fresh fine-grained GitHub PAT,
-save, and apply:
+#### Generating the tokens
+
+Create two separate fine-grained PATs at **github.com → Settings →
+Developer settings → Personal access tokens → Fine-grained tokens →
+Generate new token**. Never reuse one token for both — they have different
+scopes and travel to different endpoints:
+
+- `mcp_token` (read-only API use), repository access limited to the repos
+  you work in, permissions **Contents: Read**, **Issues: Read**,
+  **Metadata: Read**
+- `git_pat` (push/pull), same repository selection, permissions
+  **Contents: Read and write**, **Metadata: Read**
+
+Both expire (90 days recommended). When pushes or MCP calls start failing
+with auth errors, regenerate at the same page and continue below. If a
+selected repo sits in an org with SAML enforcement, click **Configure SSO
+→ Authorize** on the token or org access silently fails.
+
+Replace the placeholders, save, and apply:
+
+```yaml
+github:
+  mcp_token: github_pat_11...
+  git_pat: github_pat_11...
+```
 
 ```console
 nix run .#activate
 ```
 
+Until `github/git_pat` exists in `secrets.yaml`, git keeps using
+`osxkeychain`; the sops-rendered `~/.git-credentials` takes over
+automatically on the first activation after you add it.
+
 To add another secret later, add it under a new key in
 `secrets/secrets.yaml` via `sops secrets/secrets.yaml`, reference it in
-`modules/home/opencode/default.nix` as
-`config.sops.placeholder."<section>/<key>"`, and re-run activation.
+nix as `config.sops.placeholder."<section>/<key>"`, and re-run activation.
 Rotate any token that ever sat in plaintext config on the provider side.
