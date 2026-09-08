@@ -9,6 +9,8 @@
     "/etc/profiles/per-user/yumx/bin"
     "/run/current-system/sw/bin"
     "/nix/var/nix/profiles/default/bin"
+    "/opt/homebrew/bin"
+    "/opt/homebrew/sbin"
     "/usr/local/bin"
     "/usr/bin"
     "/bin"
