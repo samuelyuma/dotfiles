@@ -18,7 +18,6 @@
       "macs-fan-control"
       "markdown-preview"
       "microsoft-word"
-      "ngrok"
       "notion"
       "opencode-desktop"
       "spotify"

@@ -43,6 +43,7 @@ let
 
   omoPinSpec = pkgs.writeText "omo-pin-spec.json" (
     builtins.toJSON {
+      primary = builtins.head zenFreeModels;
       models = zenFreeModels;
       agents = omoAgentNames;
       categories = omoCategoryNames;
@@ -63,7 +64,10 @@ in
       path = "${config.xdg.configHome}/opencode/opencode.jsonc";
       content = builtins.toJSON {
         "$schema" = "https://opencode.ai/config.json";
-        plugin = [ "oh-my-openagent@latest" ];
+        plugin = [
+          "oh-my-openagent@latest"
+          "@dietrichgebert/ponytail"
+        ];
         mcp = {
           playwright = {
             type = "local";
@@ -122,15 +126,22 @@ in
           cfg = {}
       op = cfg.setdefault("[opencode]", {})
       changed = False
-      for section in ("agents", "categories"):
-          group = op.setdefault(section, {})
-          for name in spec[section]:
-              entry = group.setdefault(name, {})
-              entry.pop("model", None)
-              entry.pop("fallback_models", None)
-              if entry.get("models") != spec["models"]:
-                  entry["models"] = [m for m in spec["models"]]
-                  changed = True
+      agents = op.setdefault("agents", {})
+      for name in spec["agents"]:
+          entry = agents.setdefault(name, {})
+          entry.pop("models", None)
+          entry.pop("fallback_models", None)
+          if entry.get("model") != spec["primary"]:
+              entry["model"] = spec["primary"]
+              changed = True
+      cats = op.setdefault("categories", {})
+      for name in spec["categories"]:
+          entry = cats.setdefault(name, {})
+          entry.pop("model", None)
+          entry.pop("fallback_models", None)
+          if entry.get("models") != spec["models"]:
+              entry["models"] = [m for m in spec["models"]]
+              changed = True
       if changed:
           with open(path, "w") as f:
               json.dump(cfg, f, indent=2)

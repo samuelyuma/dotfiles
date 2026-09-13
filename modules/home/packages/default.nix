@@ -41,6 +41,7 @@
     typst
     uv
     yarn
+    repomix
 
     # Containers and migrations
     colima
